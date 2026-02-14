@@ -15,22 +15,48 @@ This project implements the Word2Vec CBOW architecture following the approach fr
 3. **Training** - The model is trained using Cross-Entropy loss and the Adam optimizer, with Apple Silicon GPU (MPS) acceleration when available.
 4. **Word Similarity** - After training, cosine similarity between learned embeddings is used to find semantically similar words.
 
+## Hyperparameter Design Choices
+
+| Parameter | Value |
+|-----------|-------|
+| Architecture | CBOW (Continuous Bag of Words) |
+| Window Size | 3 |
+| Embedding Dimension | 300 |
+| Training Epochs | 1000 |
+| Loss Function | CrossEntropyLoss |
+| Optimizer | Adam (lr=0.001) |
+| Device | MPS (Mac GPU) |
+| Training Time | 187.80 seconds |
+
 ## Results
 
-After training, the model captures meaningful word relationships. For example:
+### Training Plot
+
+The model converges smoothly, with loss dropping sharply in the first ~300 epochs and plateauing below 0.5 by epoch 600.
+
+![Training Loss over Epochs](training_loss.png)
+
+### Word Similarity
+
+After training, cosine similarity between learned embeddings reveals semantically meaningful relationships:
 
 | Query Word | Top Similar Words |
 |------------|-------------------|
+| `dog`      | weather, what, always, cat, activity |
 | `morning`  | bowl, evening, mornings, winter, fast |
-| `winter`   | hoot, play, sing, fast, summer |
 | `food`     | toy, rice, lessons, motivation, lunch |
+| `runs`     | school, likes, work, meet, loves |
+| `winter`   | hoot, play, sing, fast, summer |
+
+Out-of-vocabulary words (e.g., `goat`) are gracefully handled with an informative message.
 
 ## Project Structure
 
 ```
 .
-├── HW5.ipynb          # Main notebook with full implementation
-├── requirements.txt   # Python dependencies
+├── HW5.ipynb            # Main notebook with full implementation
+├── training_loss.png    # Training loss plot
+├── requirements.txt     # Python dependencies
 ├── .gitignore
 └── README.md
 ```
